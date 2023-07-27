@@ -4,7 +4,8 @@ import {Button, Divider} from "@rneui/themed"
 import { styles } from "./styles";
 import { useRef } from "react";
 
-export const ProductList = () => {
+export const ProductList = ({navigation}) => {
+    console.log(navigation);
     const productList = useProducts();
     const list:any = useRef(null);
     const press =()=>{
@@ -12,7 +13,6 @@ export const ProductList = () => {
     }
     // console.log(productList);
     const renderItem = (item: any) => {
-        console.log(item);
         return (<View>
             <Text style={styles.textStyle}>{item.item.title}</Text>
             <Text style={styles.textStyle}>{item.description}</Text>
@@ -28,6 +28,9 @@ export const ProductList = () => {
                 <Button onPress={()=>{
                     press();
                 }} title='Go to End'/>
+                <Button onPress={()=>{
+                    navigation.navigate('SmallList',{list:productList})
+                }} title='Go other Page'/>
                 <Divider orientation="vertical" width={6}/>
             </View>
         )
