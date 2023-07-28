@@ -11,14 +11,18 @@ const validationSchema = Yup.object().shape({
     .email("Enter valid email"),
   password: Yup.string()
     .required()
-    .min(6, "That can't be very secure")
+    .min(6, "That can't be very secure"),
+confirmPassword:Yup
+    .string()
+    .oneOf([Yup.ref('password')],"Passwords do not match")
 });
+Yup
 
 const  Login =() => (
     <View>
         <Text>Login</Text>
         <Formik
-            initialValues={{email:'',password:''}}
+            initialValues={{email:'',password:'',confirmPassword:""}}
             validationSchema={validationSchema}
             onSubmit={values=>{
                 console.log(values)
@@ -44,6 +48,16 @@ const  Login =() => (
                     {
                         errors.password &&
                         <Text style={{fontSize:10,color:'red'}}>{errors.password}</Text>
+                    }
+                 <TextInput name="confirmPassword"
+                placeholder="Enter confirm password"
+                onChangeText={handleChange('confirmPassword')}
+                onBlur={handleBlur('confirmPassword')}
+                value={values.confirmPassword}
+                    />
+                    {
+                        errors.confirmPassword &&
+                        <Text style={{fontSize:10,color:'red'}}>{errors.confirmPassword}</Text>
                     }
                     <Button
                     onPress={handleSubmit}
